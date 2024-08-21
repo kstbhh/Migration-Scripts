@@ -1,0 +1,31 @@
+1. ssh script
+    
+    add ssh keys to root
+    reboot
+
+2. Migration script
+   
+    (to be run in local)
+    
+    + Ask the type of login of server (user + password or key login) [optional]
+    + Ask the IP of server (default is domain)
+    + Ask the type of server install (feederbox or mediabox)
+    
+    depending upon the previous input 
+    - ssh into server
+    - run ssh script [optional]
+    - check if mediabytes user exists
+    - if yes change to mediabytes user and run install script 2
+    - if no use root to run install script 1
+         
+3. Install script 1
+
+    (to be run as root user)
+  
+     - Full update server (apt update and upgrade)
+     - Mount the storage in mnt [whenever possible otherwise skip]
+     - check ram and create swap same as ram size
+     - install saltbox dependencies
+     - run restore command
+     - run preinstall command
+     - reboot will happen automatically in case of do but have to be done manually in case of gcp

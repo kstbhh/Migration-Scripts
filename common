@@ -1,0 +1,35 @@
+# Root-User check
+if [ ! "${whoami}" = "root" ]; then
+    cecho r "Please run this script as root user"
+    exit 1
+fi
+
+# Updating System
+apt update && apt upgrade
+
+# Adding Public key for user access
+sshdir=$HOME/.ssh
+auth=$HOME/.ssh/authorized_keys
+mkdir -p "$sshdir"
+rm -rf "$auth"
+cp /migrate/authorized_keys "$auth"
+chmod 700 "$sshdir"
+chmod 600 "$auth"
+
+# Changing Timezone
+timedatectl set-timezone Asia/Kolkata
+
+# Mount HDD in /mnt ( should use disk1 and /mnt must be empty to do this step )
+
+
+# Create a swap here
+## UNTESTED!
+# dd if=/dev/zero of=/swapfile bs=1M count=8192 
+# mkswap /swapfile
+# swapon /swapfile
+# echo '/swapfile swap swap defaults 0 0' | tee -a /etc/fstab
+
+# Install Cloudbox Dependencies
+curl -s https://cloudbox.works/scripts/dep.sh | sudo -H bash; curl -s https://cloudbox.works/scripts/repo.sh | bash >/dev/null 2>&1; cd ~/cloudbox
+
+reboot
